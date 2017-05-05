@@ -1,0 +1,96 @@
+{
+  "name": "chango",
+  "version": "0.0.9",
+  "description": "Another CSP/channels/coroutines library for javascript",
+  "main": "lib/es5-cjs/index.js",
+  "jsnext:main": "lib/es/index.js",
+  "module": "lib/es/index.js",
+  "modules.root": "lib/es",
+  "scripts": {
+    "dist-es2015": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress --profile --colors --output-filename=chango.min.js",
+    "dist-es5": "cross-env NODE_ENV=production ES_TARGET=es5 webpack --config webpack.config.js --progress --profile --colors --output-filename=chango.es5.min.js",
+    "dist-dev-es2015": "cross-env NODE_ENV=development webpack --config webpack.config.js --progress --profile --colors --output-filename=chango.js",
+    "dist-dev-es5": "cross-env NODE_ENV=development ES_TARGET=es5 webpack --config webpack.config.js --progress --profile --colors --output-filename=chango.es5.js",
+    "dist": "rimraf dist/ && npm run dist-es2015 && npm run dist-es5 && npm run dist-dev-es2015 && npm run dist-dev-es5",
+    "lib-es": "rimraf lib/es/ && cross-env BABEL_ENV=es5-es6mod babel src --out-dir lib/es/",
+    "lib-es5-cjs": "rimraf lib/es5-cjs/ && cross-env BABEL_ENV=es5-cjs babel src --out-dir lib/es5-cjs/",
+    "lib-es2015": "rimraf lib/es2015/ && cross-env BABEL_ENV=es2015 babel src --out-dir lib/es2015/",
+    "lib": "rimraf lib/ && npm run lib-es && npm run lib-es5-cjs && npm run lib-es2015",
+    "build": "npm run dist && npm run lib",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A dist/",
+    "test": "cross-env NODE_ENV=test nyc --silent tape tests/*.js | faucet",
+    "posttest": "cross-env NODE_ENV=test nyc report",
+    "prettier": "prettier --no-semi --trailing-comma all --single-quote --write src/**/*.js"
+  },
+  "author": "Alex Hornung",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bwalex/chango.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bwalex/chango/issues"
+  },
+  "homepage": "https://github.com/bwalex/chango",
+  "keywords": [
+    "javascript",
+    "csp",
+    "channels",
+    "coroutines",
+    "side effects",
+    "chan",
+    "go"
+  ],
+  "peerDependencies": {
+    "babel-runtime": "^6.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-istanbul": "^4.1.3",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-babili": "^0.0.12",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-register": "^6.24.1",
+    "babel-runtime": "^6.23.0",
+    "babel-tape-runner": "^2.0.1",
+    "babili-webpack-plugin": "^0.0.11",
+    "cross-env": "^5.0.0",
+    "faucet": "^0.0.1",
+    "nyc": "^10.3.2",
+    "prettier": "^1.3.1",
+    "rimraf": "^2.6.1",
+    "sinon": "^2.2.0",
+    "tape": "^4.6.3",
+    "transducers-js": "^0.4.174",
+    "transducers.js": "^0.3.2",
+    "webpack": "^2.5.1"
+  },
+  "nyc": {
+    "include": [
+      "src/internal/**/*.js"
+    ],
+    "exclude": [
+      "src/internal/nextTick.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "text",
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  }
+}

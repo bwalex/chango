@@ -1,0 +1,28 @@
+{
+  "env": {
+    "test": {
+      "presets": [["env", { "targets": { "node": "current" } }], "flow"],
+      "plugins": ["transform-object-rest-spread", "transform-class-properties", "transform-es2015-modules-commonjs", "istanbul"]
+    },
+    "es5-es6mod": {
+      "presets": [["es2015", { "loose": true, "modules": false }], "es2016", "flow"],
+      "plugins": [["transform-runtime", {
+      	"helpers": false,
+	"polyfill": false,
+	"regenerator": true
+      }], "transform-object-rest-spread", "transform-class-properties"]
+    },
+    "es5-cjs": {
+      "presets": [["es2015", { "loose": true, "modules": "commonjs" }], "es2016", "flow"],
+      "plugins": [["transform-runtime", {
+      	"helpers": false,
+	"polyfill": false,
+	"regenerator": true
+      }], "transform-object-rest-spread", "transform-class-properties"]
+    },
+    "es2015": {
+      "presets": ["es2016", "flow"],
+      "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+    },
+  }
+}

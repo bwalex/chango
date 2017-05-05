@@ -1,0 +1,62 @@
+*~
+
+jspm_packages
+
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+/.nyc_output
+/coverage
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+build/Release
+
+node_modules
+
+
+### Vim ###
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+
+### Emacs ###
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+### Sass ###
+.sass-cache/
+*.css.map
