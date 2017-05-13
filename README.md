@@ -12,6 +12,11 @@ npm install --save chango
 ```
 
 
+## Inspiration
+
+This library is heavily inspired by Clojure's core.async, with other bits inspired by go (the language) and redux-saga.
+
+
 ## License
 
   [MIT](LICENSE)
