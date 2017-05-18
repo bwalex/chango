@@ -11,6 +11,16 @@
 npm install --save chango
 ```
 
+## Documentation
+
+ - [Channels](docs/channels.md)
+ - [Coroutines](docs/coroutines.md)
+ - [Effects](docs/effects.md)
+ - [Higher-level helpers](docs/utils.md)
+ - [Pub/Sub](docs/pub_sub.md)
+ - [Mix](docs/mix.md)
+ - [Mult](docs/mult.md)
+ - [Writing extensions](docs/extensions.md)
 
 ## Inspiration
 
