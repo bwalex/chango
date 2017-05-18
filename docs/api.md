@@ -429,7 +429,32 @@ go(function*() {
 ## Misc
 
 ### `tickerChan(ms, burstLimit = 1)`
+
+Returns a channel that provides a value every `ms` milliseconds. At most `burstLimit` values will be placed on the channel. Any further generated value gets dropped.
+
+`tickerChan` can be used to build rate limiting, with an optional burst acceptance.
+
+#### Example
+
+```javascript
+go(function*() {
+  const tc = tickerChan(100, 2)
+
+  while (true) {
+    // Accept a message from `someOtherChannel` and process it with a call
+    // to `doSomething`, but do so at most twice every 100 ms.
+    const someValue = yield someOtherChannel
+    doSomething(someValue)
+    yield tc
+  }
+})
+```
+
 ### `timeoutChan(ms)`
+
+Returns a channel that will close after `ms` milliseconds.
+
+
 ### `promiseChan(promise, transducer = null, exHandler = null)`
 ### `cpsChan(fn, ...args)`
 ### `ontoChan(ch, coll, close = true)`
