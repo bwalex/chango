@@ -71,6 +71,10 @@ export {
   split,
 } from './internal/helper'
 
+export {
+  shuffle
+} from './internal/util'
+
 export { addEffectHandler, handleEffect } from './internal/effects'
 
 import * as effects from './internal/effects'
