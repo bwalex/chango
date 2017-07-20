@@ -545,7 +545,7 @@ function runEffectTranslators(effect) {
   } else if (Array.isArray(effect) && effect.length == 2 && effect[0] instanceof __WEBPACK_IMPORTED_MODULE_3__channel__["a" /* Channel */]) {
     return put(effect[0], effect[1]);
   } else if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__util__["b" /* isPromise */])(effect)) {
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__helper__["c" /* promiseChan */])(effect);
+    return runEffectTranslators(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__helper__["c" /* promiseChan */])(effect));
   } else {
     return effect;
   }
