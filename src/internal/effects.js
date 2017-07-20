@@ -33,7 +33,7 @@ export function runEffectTranslators(effect) {
   ) {
     return put(effect[0], effect[1])
   } else if (isPromise(effect)) {
-    return runEffectTranslators(promiseChan(effect))
+    return take(promiseChan(effect))
   } else {
     return effect
   }
