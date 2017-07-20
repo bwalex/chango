@@ -1,6 +1,6 @@
 {
   "name": "chango",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Another CSP/channels/coroutines library for javascript",
   "main": "lib/es5-cjs/index.js",
   "jsnext:main": "lib/es/index.js",
