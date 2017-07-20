@@ -126,7 +126,6 @@ export function soloMode(mix, mode) {
   mix.setSoloMode(mode)
 }
 
-// XXX: objects cannot really be keys, so can't use a map
 export function toggle(mix, chOrList, stateMap = null) {
   if (chOrList instanceof Channel) {
     mix.toggle(chOrList, stateMap)

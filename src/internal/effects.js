@@ -10,21 +10,20 @@ import { Channel } from './channel'
 import { Process, go } from './process'
 import { cpsChan, promiseChan, timeoutChan } from './helper'
 import { isError } from './error'
+import { warning, isPromise } from './util'
 
 let effectHandlers = {}
 
 export function addEffectHandler(name, handler) {
-  if (effectHandlers.hasOwnProperty(name)) {
-    // XXX: warning
-  }
+  warning(
+    !effectHandlers.hasOwnProperty(name),
+    `Overriding built-in effect handler ${name}`,
+  )
+
   effectHandlers[name] = handler
 }
 
 export function runEffectTranslators(effect) {
-  // XXX: add some special magic to cope with effect being:
-  //  - instanceof Channel -> implied take
-  //  - [instanceof Channel, any] -> implied put
-  // -> generic concept of effect translators?
   if (effect instanceof Channel) {
     return take(effect)
   } else if (
@@ -33,6 +32,8 @@ export function runEffectTranslators(effect) {
     effect[0] instanceof Channel
   ) {
     return put(effect[0], effect[1])
+  } else if (isPromise(effect)) {
+    return promiseChan(effect)
   } else {
     return effect
   }

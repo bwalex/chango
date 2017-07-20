@@ -233,6 +233,22 @@ test('call waits for child', function(t) {
   })
 })
 
+test('call throws if child throws', function(t) {
+  t.plan(1)
+  go(function*() {
+    try {
+      const val = yield call(function*(valToInc) {
+        yield nop()
+        throw 'throw!'
+        return valToInc+1
+      }, 41)
+      t.notOk('Should have thrown!')
+    } catch (e) {
+      t.equal(e, 'throw!')
+    }
+  })
+})
+
 test('value passthrough if not an effect', function(t) {
   t.plan(1)
 

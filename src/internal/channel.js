@@ -71,6 +71,10 @@ export class Channel {
     this.xform = handleEx(this.buffer, exHandler)(xform)
   }
 
+  hasTakes() {
+    return this.takes.length > 0
+  }
+
   close() {
     if (this._closed) return
 

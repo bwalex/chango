@@ -3,7 +3,8 @@ import { nextTick } from './nextTick'
 import { handleEffect } from './effects'
 import { FnHandler } from './handler'
 import { PROCESS_KILL, PROCESS_KILLED } from './constants'
-import { isError } from './error'
+import { isError, error } from './error'
+import { warning } from './util'
 
 class InternalProcess {
   constructor(gen, onDone = null) {
@@ -50,7 +51,7 @@ class InternalProcess {
         ? this.gen.throw(val.value())
         : ret ? this.gen.return(val) : this.gen.next(val)
     } catch (e) {
-      var [done, value] = [true, e]
+      var [done, value] = [true, error(e)]
     }
 
     if (done) {
@@ -81,6 +82,12 @@ export function go(genfn, ...args) {
   const ch = chan(1)
 
   const proc = new InternalProcess(genfn(...args), retVal => {
+    warning(
+      !isError(retVal) || ch.hasTakes(),
+      `Process finished with error but return channel has no listeners`,
+      retVal,
+    )
+
     ch.put(retVal, new FnHandler(() => ch.close()))
   })
 
