@@ -1770,6 +1770,23 @@ test('basic promiseChan with rejected promise', function(t) {
   })
 })
 
+test('promise effect translator', function(t) {
+  t.plan(1)
+  const cx = chan()
+
+  const p = new Promise((resolve, reject) => {
+    go(function*() {
+      yield cx
+      resolve(42)
+    })
+  })
+
+  go(function*() {
+    const [val] = yield all(p, [cx, 'now!'])
+    t.equal(val, 42)
+  })
+})
+
 test('basic put close take', function(t) {
   t.plan(2)
   const ch = chan()
