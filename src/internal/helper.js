@@ -54,6 +54,16 @@ export function cpsChan(fn, ...args) {
   return ch
 }
 
+export function callbackChan(fn, ...args) {
+  const ch = chan()
+
+  fn(...args, function(result) {
+    put_(ch, result, () => ch.close())
+  })
+
+  return ch
+}
+
 export function ontoChan(ch, coll, closeWhenDone = true) {
   go(function*() {
     for (let val of coll) {

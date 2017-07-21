@@ -8,7 +8,7 @@ import {
 } from './handler'
 import { Channel } from './channel'
 import { Process, go } from './process'
-import { cpsChan, promiseChan, timeoutChan } from './helper'
+import { cpsChan, callbackChan, promiseChan, timeoutChan } from './helper'
 import { isError } from './error'
 import { warning, isPromise } from './util'
 
@@ -75,6 +75,9 @@ export const call = (fn, ...args) => ({
 
 // error-first callback function
 export const cps = (fn, ...args) => cpsChan(fn, ...args)
+
+// only result callback function
+export const callback = (fn, ...args) => callbackChan(fn, ...args)
 
 export const fork = (procOrFn, ...args) => ({
   type: 'fork',
