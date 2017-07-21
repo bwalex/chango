@@ -403,6 +403,11 @@ const cps = (fn, ...args) => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__
 /* harmony export (immutable) */ __webpack_exports__["cps"] = cps;
 
 
+// only result callback function
+const callback = (fn, ...args) => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__helper__["p" /* callbackChan */])(fn, ...args);
+/* harmony export (immutable) */ __webpack_exports__["callback"] = callback;
+
+
 const fork = (procOrFn, ...args) => ({
   type: 'fork',
   procOrFn,
@@ -1382,6 +1387,7 @@ module.exports = function(it){
 /* harmony export (immutable) */ __webpack_exports__["b"] = timeoutChan;
 /* harmony export (immutable) */ __webpack_exports__["c"] = promiseChan;
 /* harmony export (immutable) */ __webpack_exports__["d"] = cpsChan;
+/* harmony export (immutable) */ __webpack_exports__["p"] = callbackChan;
 /* harmony export (immutable) */ __webpack_exports__["e"] = ontoChan;
 /* harmony export (immutable) */ __webpack_exports__["h"] = mapChan;
 /* harmony export (immutable) */ __webpack_exports__["i"] = reduceChan;
@@ -1441,6 +1447,16 @@ function cpsChan(fn, ...args) {
 
   fn(...args, function (err, result) {
     if (err) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__channel__["f" /* put_ */])(ch, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__error__["b" /* error */])(err), () => ch.close());else __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__channel__["f" /* put_ */])(ch, result, () => ch.close());
+  });
+
+  return ch;
+}
+
+function callbackChan(fn, ...args) {
+  const ch = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__channel__["b" /* chan */])();
+
+  fn(...args, function (result) {
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__channel__["f" /* put_ */])(ch, result, () => ch.close());
   });
 
   return ch;

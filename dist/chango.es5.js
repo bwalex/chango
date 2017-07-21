@@ -503,6 +503,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sleep", function() { return sleep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "call", function() { return call; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cps", function() { return cps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "callback", function() { return callback; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fork", function() { return fork; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spawn", function() { return spawn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alts", function() { return alts; });
@@ -606,9 +607,18 @@ var cps = function cps(fn) {
   return __WEBPACK_IMPORTED_MODULE_5__helper__["d" /* cpsChan */].apply(undefined, [fn].concat(args));
 };
 
-var fork = function fork(procOrFn) {
+// only result callback function
+var callback = function callback(fn) {
   for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
     args[_key3 - 1] = arguments[_key3];
+  }
+
+  return __WEBPACK_IMPORTED_MODULE_5__helper__["p" /* callbackChan */].apply(undefined, [fn].concat(args));
+};
+
+var fork = function fork(procOrFn) {
+  for (var _len4 = arguments.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+    args[_key4 - 1] = arguments[_key4];
   }
 
   return {
@@ -619,8 +629,8 @@ var fork = function fork(procOrFn) {
 };
 
 var spawn = function spawn(fn) {
-  for (var _len4 = arguments.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-    args[_key4 - 1] = arguments[_key4];
+  for (var _len5 = arguments.length, args = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+    args[_key5 - 1] = arguments[_key5];
   }
 
   return {
@@ -631,8 +641,8 @@ var spawn = function spawn(fn) {
 };
 
 var alts = function alts() {
-  for (var _len5 = arguments.length, ports = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-    ports[_key5] = arguments[_key5];
+  for (var _len6 = arguments.length, ports = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+    ports[_key6] = arguments[_key6];
   }
 
   return {
@@ -642,8 +652,8 @@ var alts = function alts() {
 };
 
 var alt = function alt() {
-  for (var _len6 = arguments.length, ports = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-    ports[_key6] = arguments[_key6];
+  for (var _len7 = arguments.length, ports = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+    ports[_key7] = arguments[_key7];
   }
 
   return {
@@ -653,8 +663,8 @@ var alt = function alt() {
 };
 
 var all = function all() {
-  for (var _len7 = arguments.length, ports = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-    ports[_key7] = arguments[_key7];
+  for (var _len8 = arguments.length, ports = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
+    ports[_key8] = arguments[_key8];
   }
 
   return {
@@ -691,8 +701,8 @@ var killed = function killed() {
 };
 
 var join = function join() {
-  for (var _len8 = arguments.length, procs = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
-    procs[_key8] = arguments[_key8];
+  for (var _len9 = arguments.length, procs = Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+    procs[_key9] = arguments[_key9];
   }
 
   return all.apply(undefined, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_toConsumableArray___default()(procs.map(function (p) {
@@ -2272,6 +2282,7 @@ module.exports = g;
 /* harmony export (immutable) */ __webpack_exports__["b"] = timeoutChan;
 /* harmony export (immutable) */ __webpack_exports__["c"] = promiseChan;
 /* harmony export (immutable) */ __webpack_exports__["d"] = cpsChan;
+/* harmony export (immutable) */ __webpack_exports__["p"] = callbackChan;
 /* harmony export (immutable) */ __webpack_exports__["e"] = ontoChan;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return toChan; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return intoChan; });
@@ -2368,6 +2379,22 @@ function cpsChan(fn) {
     if (err) __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__channel__["f" /* put_ */])(ch, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__error__["b" /* error */])(err), function () {
       return ch.close();
     });else __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__channel__["f" /* put_ */])(ch, result, function () {
+      return ch.close();
+    });
+  }]));
+
+  return ch;
+}
+
+function callbackChan(fn) {
+  var ch = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__channel__["b" /* chan */])();
+
+  for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    args[_key2 - 1] = arguments[_key2];
+  }
+
+  fn.apply(undefined, args.concat([function (result) {
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__channel__["f" /* put_ */])(ch, result, function () {
       return ch.close();
     });
   }]));
